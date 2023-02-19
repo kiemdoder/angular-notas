@@ -1,0 +1,36 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  //grid-template-columns: 1fr;
+  //grid-template-rows: max-content 1fr;
+  height: 100vh;
+
+  &-title {
+    font-size: 20px;
+  }
+
+  &-toolbar {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 50px;
+    background: #c97632;
+    color: white;
+  }
+
+  &-container {
+    flex: 1;
+
+    mat-drawer {
+      background: #d7bbac;
+    }
+  }
+
+  &-sidenav-content {
+    height: 100%;
+  }
+}
+
+.link-active {
+  color: green;
+}
