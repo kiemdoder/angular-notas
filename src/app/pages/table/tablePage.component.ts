@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ColumnDefs } from '../../components/table/table';
+import { WeightCellComponent } from './weight-cell.component';
 
 export interface PeriodicElement {
   name: string;
@@ -24,8 +26,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
   template: `
     <generic-table
       [data]="data"
+      [columnDefinitions]="columnDefinitions"
       [displayedColumns]="columns"
-      [excludedColumns]="['weight']"
+      [excludedColumns]="['position']"
     ></generic-table>
   `,
 })
@@ -33,4 +36,10 @@ export class TablePageComponent {
   data = ELEMENT_DATA;
   // columns = ['name', 'position', 'weight', 'symbol'];
   columns = [];
+  columnDefinitions: ColumnDefs = {
+    weight: {
+      header: 'Atomic weight',
+      renderComponent: WeightCellComponent,
+    },
+  };
 }

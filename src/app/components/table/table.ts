@@ -1,17 +1,17 @@
 import { Type } from '@angular/core';
 
-export interface TableCellRenderer {
-  row: any;
-  field: string;
-}
-
 export interface DataRow {
   [field: string]: any;
 }
 
+export interface TableCellRenderer {
+  row: DataRow;
+  field: string;
+}
+
 export interface ColumnDef {
   header?: string | ((id: string) => any);
-  RenderComponent?: Type<TableCellRenderer>;
+  renderComponent?: Type<TableCellRenderer>;
   tooltip?: string;
 }
 

@@ -9,10 +9,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { TablePageComponent } from './pages/table/tablePage.component';
 import { RouterModule, Routes } from '@angular/router';
 import { GenericTableModule } from './components/table/generic-table.module';
+import { WeightCellComponent } from './pages/table/weight-cell.component';
 
 const matImports = [MatSidenavModule, MatButtonModule];
 const appModules = [GenericTableModule];
 const pages = [TablePageComponent];
+const components = [WeightCellComponent];
 
 const appRoutes: Routes = [
   {
@@ -22,7 +24,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...pages],
+  declarations: [AppComponent, ...pages, ...components],
   imports: [
     BrowserModule,
     AppRoutingModule,

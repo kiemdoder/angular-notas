@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { splitFieldName } from '../../../utils/format';
+import { ColumnDefs } from './table';
 
 @Component({
   selector: 'generic-table',
@@ -10,6 +11,7 @@ export class GenericTableComponent implements OnInit {
   @Input() data: any[] = [];
   @Input() displayedColumns: string[] = [];
   @Input() excludedColumns: string[] = [];
+  @Input() columnDefinitions: ColumnDefs = {};
   cols: string[] = [];
 
   ngOnInit(): void {
