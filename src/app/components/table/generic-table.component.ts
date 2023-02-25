@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { splitFieldName } from '../../../utils/format';
 import { ColumnDefs } from './table';
+import { TextTableCellComponent } from './text-table-cell.component';
 
 @Component({
   selector: 'generic-table',
@@ -13,6 +14,7 @@ export class GenericTableComponent implements OnInit {
   @Input() excludedColumns: string[] = [];
   @Input() columnDefinitions: ColumnDefs = {};
   cols: string[] = [];
+  defaultCellRenderer = TextTableCellComponent;
 
   ngOnInit(): void {
     if (this.displayedColumns.length > 0) {

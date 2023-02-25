@@ -32,7 +32,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     ></generic-table>
   `,
 })
-export class TablePageComponent {
+export class TablePage {
   data = ELEMENT_DATA;
   // columns = ['name', 'position', 'weight', 'symbol'];
   columns = [];

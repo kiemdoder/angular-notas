@@ -1,6 +1,5 @@
 import {
   Component,
-  Directive,
   Input,
   OnInit,
   Type,
@@ -9,13 +8,6 @@ import {
 import { TextTableCellComponent } from './text-table-cell.component';
 import { TableCellRenderer } from './table';
 
-@Directive({
-  selector: '[cellContentOutlet]',
-})
-export class CellOutlet {
-  constructor(public viewContainerRef: ViewContainerRef) {}
-}
-
 @Component({
   selector: 'table-cell',
   template: ``,
@@ -23,7 +15,7 @@ export class CellOutlet {
 export class TableCellComponent implements OnInit {
   @Input() row = {};
   @Input() field = '';
-  renderComponent: Type<TableCellRenderer> = TextTableCellComponent;
+  @Input() renderComponent: Type<TableCellRenderer> = TextTableCellComponent;
   constructor(private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit(): void {
