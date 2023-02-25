@@ -10,16 +10,29 @@ import { TablePage } from './pages/table/table.page';
 import { RouterModule, Routes } from '@angular/router';
 import { GenericTableModule } from './components/table/generic-table.module';
 import { WeightCellComponent } from './pages/table/weight-cell.component';
+import { FormPage } from './pages/form/form.page';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
-const matImports = [MatSidenavModule, MatButtonModule];
-const appModules = [GenericTableModule];
-const pages = [TablePage];
+const matImports = [
+  MatSidenavModule,
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+];
+const appModules = [GenericTableModule, ReactiveFormsModule];
+const pages = [TablePage, FormPage];
 const components = [WeightCellComponent];
 
 const appRoutes: Routes = [
   {
     path: 'table',
     component: TablePage,
+  },
+  {
+    path: 'form',
+    component: FormPage,
   },
 ];
 
