@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  template: `
+    template: `
     <form class="form-container">
       <mat-form-field>
         <mat-label>Enter your name</mat-label>
@@ -40,15 +40,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
       <code>valid: {{ formGroup.valid | json }}</code>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       .form-container {
         display: flex;
         flex-direction: column;
         width: 200px;
       }
     `,
-  ],
+    ],
+    standalone: false
 })
 export class FormPage {
   name = new FormControl('', [Validators.required]);

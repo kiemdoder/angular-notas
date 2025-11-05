@@ -4,9 +4,10 @@ import { ColumnDefs } from './table';
 import { TextTableCellComponent } from './text-table-cell.component';
 
 @Component({
-  selector: 'generic-table',
-  templateUrl: './generic-table.component.html',
-  styleUrls: ['./generic-table.component.scss'],
+    selector: 'generic-table',
+    templateUrl: './generic-table.component.html',
+    styleUrls: ['./generic-table.component.scss'],
+    standalone: false
 })
 export class GenericTableComponent implements OnInit {
   @Input() data: any[] = [];

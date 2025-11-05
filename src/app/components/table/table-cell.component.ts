@@ -9,8 +9,9 @@ import { TextTableCellComponent } from './text-table-cell.component';
 import { TableCellRenderer } from './table';
 
 @Component({
-  selector: 'table-cell',
-  template: ``,
+    selector: 'table-cell',
+    template: ``,
+    standalone: false
 })
 export class TableCellComponent implements OnInit {
   @Input() row = {};

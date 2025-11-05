@@ -23,7 +23,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  template: `
+    template: `
     <generic-table
       [data]="data"
       [columnDefinitions]="columnDefinitions"
@@ -31,6 +31,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
       [excludedColumns]="['position']"
     ></generic-table>
   `,
+    standalone: false
 })
 export class TablePage {
   data = ELEMENT_DATA;
