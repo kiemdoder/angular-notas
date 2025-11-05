@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { NgIf, JsonPipe } from '@angular/common';
 
 @Component({
     template: `
@@ -49,7 +52,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
       }
     `,
     ],
-    standalone: false
+    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, NgIf, MatError, JsonPipe]
 })
 export class FormPage {
   name = new FormControl('', [Validators.required]);

@@ -10,8 +10,7 @@ import { TableCellRenderer } from './table';
 
 @Component({
     selector: 'table-cell',
-    template: ``,
-    standalone: false
+    template: ``
 })
 export class TableCellComponent implements OnInit {
   @Input() row = {};

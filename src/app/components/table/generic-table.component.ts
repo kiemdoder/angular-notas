@@ -2,12 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { splitFieldName } from '../../../utils/format';
 import { ColumnDefs } from './table';
 import { TextTableCellComponent } from './text-table-cell.component';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { NgFor } from '@angular/common';
+import { TableCellComponent } from './table-cell.component';
 
 @Component({
     selector: 'generic-table',
     templateUrl: './generic-table.component.html',
     styleUrls: ['./generic-table.component.scss'],
-    standalone: false
+    imports: [MatTable, NgFor, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, TableCellComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
 })
 export class GenericTableComponent implements OnInit {
   @Input() data: any[] = [];

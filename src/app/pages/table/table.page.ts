@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ColumnDefs } from '../../components/table/table';
 import { WeightCellComponent } from './weight-cell.component';
+import { GenericTableComponent } from '../../components/table/generic-table.component';
 
 export interface PeriodicElement {
   name: string;
@@ -31,7 +32,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
       [excludedColumns]="['position']"
     ></generic-table>
   `,
-    standalone: false
+    imports: [GenericTableComponent]
 })
 export class TablePage {
   data = ELEMENT_DATA;
