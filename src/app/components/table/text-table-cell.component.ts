@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { DataRow, TableCellRenderer } from './table';
+import { Component, signal } from '@angular/core';
+import { DataRow, TableCellRendererSignal } from './table';
 
-@Component({ template: `<span>{{ row[field] }}</span>` })
-export class TextTableCellComponent implements TableCellRenderer {
-  row: DataRow = {};
-  field = '';
+@Component({ template: `<span>{{ row()[field()] }}</span>` })
+export class TextTableCellComponent implements TableCellRendererSignal {
+  row = signal<DataRow>({});
+  field = signal('');
 }

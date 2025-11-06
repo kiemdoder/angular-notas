@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MatDrawerContainer, MatDrawer } from '@angular/material/sidenav';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
@@ -9,5 +9,5 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     imports: [MatDrawerContainer, MatDrawer, RouterLink, RouterLinkActive, RouterOutlet]
 })
 export class AppComponent {
-  title = 'angular-notas';
+  title = signal('angular-notas');
 }

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { NgIf, JsonPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     template: `
@@ -37,10 +38,13 @@ import { NgIf, JsonPipe } from '@angular/common';
       </mat-form-field>
     </form>
     <div>
-      <code>{{ formGroup.value | json }}</code>
+      <code>{{ formValue() | json }}</code>
     </div>
     <div>
-      <code>valid: {{ formGroup.valid | json }}</code>
+      <code>valid: {{ isFormValid() }}</code>
+    </div>
+    <div>
+      <code>dirty: {{ isFormDirty() }}</code>
     </div>
   `,
     styles: [
@@ -61,4 +65,17 @@ export class FormPage {
     name: this.name,
     email: this.email,
   });
+
+  // Convert form observables to signals
+  formValue = toSignal(this.formGroup.valueChanges, {
+    initialValue: this.formGroup.value
+  });
+  formStatus = toSignal(this.formGroup.statusChanges, {
+    initialValue: this.formGroup.status
+  });
+
+  // Computed signals for form state
+  isFormValid = computed(() => this.formStatus() === 'VALID');
+  isFormDirty = computed(() => this.formGroup.dirty);
+  isFormTouched = computed(() => this.formGroup.touched);
 }

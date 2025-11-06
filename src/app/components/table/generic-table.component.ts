@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { splitFieldName } from '../../../utils/format';
 import { ColumnDefs } from './table';
 import { TextTableCellComponent } from './text-table-cell.component';
@@ -10,27 +10,29 @@ import { TableCellComponent } from './table-cell.component';
     selector: 'generic-table',
     templateUrl: './generic-table.component.html',
     styleUrls: ['./generic-table.component.scss'],
-    imports: [MatTable, NgFor, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, TableCellComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
+    imports: [MatTable, NgFor, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, TableCellComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GenericTableComponent implements OnInit {
-  @Input() data: any[] = [];
-  @Input() displayedColumns: string[] = [];
-  @Input() excludedColumns: string[] = [];
-  @Input() columnDefinitions: ColumnDefs = {};
-  cols: string[] = [];
-  defaultCellRenderer = TextTableCellComponent;
+export class GenericTableComponent {
+  // Input signals
+  data = input<any[]>([]);
+  displayedColumns = input<string[]>([]);
+  excludedColumns = input<string[]>([]);
+  columnDefinitions = input<ColumnDefs>({});
 
-  ngOnInit(): void {
-    if (this.displayedColumns.length > 0) {
-      this.cols = this.displayedColumns;
-    } else {
-      const colsFromData =
-        this.data && this.data.length > 0 ? Object.keys(this.data[0]) : [];
-      this.cols = colsFromData.filter(
-        (col) => this.excludedColumns.indexOf(col) === -1
-      );
+  // Computed signals
+  cols = computed(() => {
+    if (this.displayedColumns().length > 0) {
+      return this.displayedColumns();
     }
-  }
+    const colsFromData =
+      this.data() && this.data().length > 0 ? Object.keys(this.data()[0]) : [];
+    return colsFromData.filter(
+      (col) => this.excludedColumns().indexOf(col) === -1
+    );
+  });
+
+  defaultCellRenderer = TextTableCellComponent;
 
   splitFieldName_(col: string) {
     return splitFieldName(col);
