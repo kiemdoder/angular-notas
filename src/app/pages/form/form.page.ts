@@ -56,7 +56,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
       }
     `,
     ],
-    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, NgIf, MatError, JsonPipe]
+    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, NgIf, MatError, JsonPipe],
+    standalone: true
 })
 export class FormPage {
   name = new FormControl('', [Validators.required]);

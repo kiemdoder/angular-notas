@@ -6,7 +6,8 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    imports: [MatDrawerContainer, MatDrawer, RouterLink, RouterLinkActive, RouterOutlet]
+    imports: [MatDrawerContainer, MatDrawer, RouterLink, RouterLinkActive, RouterOutlet],
+    standalone: true
 })
 export class AppComponent {
   title = signal('angular-notas');

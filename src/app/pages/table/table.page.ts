@@ -32,7 +32,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
       [excludedColumns]="['position']"
     ></generic-table>
   `,
-    imports: [GenericTableComponent]
+    imports: [GenericTableComponent],
+    standalone: true
 })
 export class TablePage {
   data = signal(ELEMENT_DATA);

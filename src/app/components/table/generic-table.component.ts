@@ -11,7 +11,8 @@ import { TableCellComponent } from './table-cell.component';
     templateUrl: './generic-table.component.html',
     styleUrls: ['./generic-table.component.scss'],
     imports: [MatTable, NgFor, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, TableCellComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class GenericTableComponent {
   // Input signals

@@ -10,7 +10,8 @@ import { TableCellRenderer, TableCellRendererSignal, isSignalRenderer } from './
 
 @Component({
     selector: 'table-cell',
-    template: ``
+    template: ``,
+    standalone: true
 })
 export class TableCellComponent {
   // Input signals
