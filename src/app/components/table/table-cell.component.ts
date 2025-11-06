@@ -1,12 +1,6 @@
-import {
-  Component,
-  effect,
-  input,
-  Type,
-  ViewContainerRef,
-} from '@angular/core';
-import { TextTableCellComponent } from './text-table-cell.component';
-import { TableCellRenderer, TableCellRendererSignal, isSignalRenderer } from './table';
+import {Component, effect, inject, input, Type, ViewContainerRef,} from '@angular/core';
+import {TextTableCellComponent} from './text-table-cell.component';
+import {TableCellRenderer} from './table';
 
 @Component({
     selector: 'table-cell',
@@ -17,26 +11,20 @@ export class TableCellComponent {
   // Input signals
   row = input<any>({});
   field = input<string>('');
-  renderComponent = input<Type<TableCellRenderer | TableCellRendererSignal>>(TextTableCellComponent);
+  renderComponent = input<Type<TableCellRenderer>>(TextTableCellComponent);
 
-  constructor(private viewContainerRef: ViewContainerRef) {
+  constructor() {
+    const viewContainerRef = inject(ViewContainerRef);
+
     // Use effect to react to input signal changes
     effect(() => {
-      this.viewContainerRef.clear();
-      const compRef = this.viewContainerRef.createComponent<TableCellRenderer | TableCellRendererSignal>(
+      viewContainerRef.clear();
+      const compRef = viewContainerRef.createComponent<TableCellRenderer>(
         this.renderComponent()
       );
 
-      // Check if the renderer uses signals or legacy interface
-      if (isSignalRenderer(compRef.instance)) {
-        // Signal-based renderer - use .set()
-        compRef.instance.row.set(this.row());
-        compRef.instance.field.set(this.field());
-      } else {
-        // Legacy renderer - direct assignment
-        compRef.instance.row = this.row();
-        compRef.instance.field = this.field();
-      }
+      compRef.instance.row.set(this.row());
+      compRef.instance.field.set(this.field());
     });
   }
 }
