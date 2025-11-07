@@ -4,6 +4,7 @@ import { provideRouter, Routes } from '@angular/router';
 import { TablePage } from './app/pages/table/table.page';
 import { FormPage } from './app/pages/form/form.page';
 import { AppComponent } from './app/app.component';
+import {ListPage} from "./app/pages/list/list.page";
 
 const appRoutes: Routes = [
   {
@@ -13,6 +14,10 @@ const appRoutes: Routes = [
   {
     path: 'form',
     component: FormPage,
+  },
+  {
+    path: 'list',
+    component: ListPage,
   },
 ];
 
