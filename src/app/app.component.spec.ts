@@ -1,3 +1,6 @@
+/// <reference types="vitest/globals" />
+// Import test setup to ensure Angular test environment is initialized
+import '../test-setup';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -19,13 +22,13 @@ describe('AppComponent', () => {
   it(`should have as title 'angular-notas'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-notas');
+    expect(app.title()).toEqual('angular-notas');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('angular-notas app is running!');
+    expect(compiled.querySelector('.app-title')?.textContent).toContain('Angular notas');
   });
 });
