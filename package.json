@@ -11,12 +11,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^21.0.2",
-    "@angular/cdk": "^20.2.11",
+    "@angular/cdk": "^21.0.1",
     "@angular/common": "^21.0.2",
     "@angular/compiler": "^21.0.2",
     "@angular/core": "^21.0.2",
     "@angular/forms": "^21.0.2",
-    "@angular/material": "^20.2.11",
+    "@angular/material": "^21.0.1",
     "@angular/platform-browser": "^21.0.2",
     "@angular/platform-browser-dynamic": "^21.0.2",
     "@angular/router": "^21.0.2",
@@ -26,17 +26,19 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
+    "@analogjs/vitest-angular": "^2.1.2",
     "@angular-devkit/build-angular": "^21.0.1",
+    "@angular/build": "^21.0.1",
     "@angular/cli": "~21.0.1",
     "@angular/compiler-cli": "^21.0.2",
     "@standard-schema/spec": "^1.0.0",
     "@testing-library/angular": "^18.1.0",
-    "@vitest/browser": "^4.0.7",
-    "@vitest/ui": "^4.0.7",
+    "@vitest/browser": "^4.0.14",
+    "@vitest/ui": "^4.0.14",
     "jsdom": "^27.1.0",
     "playwright": "^1.56.1",
     "playwright-chromium": "^1.56.1",
     "typescript": "~5.9.3",
-    "vitest": "^4.0.7"
+    "vitest": "^4.0.14"
   }
 }
