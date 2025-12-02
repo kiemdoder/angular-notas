@@ -1,0 +1,38 @@
+angular-notas@0.0.0 /Users/206769920@bwt3.com/dev/angular/angular-notas
+├── @analogjs/vite-plugin-angular@2.0.2
+├── @angular-devkit/build-angular@20.3.8
+├── @angular/animations@20.3.9
+├── @angular/cdk@20.2.11
+├── @angular/cli@20.3.8
+├── @angular/common@20.3.9
+├── @angular/compiler-cli@20.3.9
+├── @angular/compiler@20.3.9
+├── @angular/core@20.3.9
+├── @angular/forms@20.3.9
+├── @angular/material@20.2.11
+├── @angular/platform-browser-dynamic@20.3.9
+├── @angular/platform-browser@20.3.9
+├── @angular/router@20.3.9
+├── @js-joda/core@5.5.2
+├── @testing-library/angular@18.1.0
+├── @testing-library/user-event@14.6.1 extraneous
+├── @vitest/browser@4.0.7
+├── @vitest/ui@4.0.7
+├── cac@6.7.14 extraneous
+├── check-error@2.1.1 extraneous
+├── deep-eql@5.0.2 extraneous
+├── jsdom@27.1.0
+├── loupe@3.2.1 extraneous
+├── pathval@2.0.1 extraneous
+├── playwright-chromium@1.56.1
+├── playwright@1.56.1
+├── rxjs@7.8.2
+├── strip-literal@3.1.0 extraneous
+├── tinypool@1.1.1 extraneous
+├── tinyspy@4.0.4 extraneous
+├── tslib@2.8.1
+├── typescript@5.8.3
+├── vite-node@3.2.4 extraneous
+├── vitest@4.0.7
+└── zone.js@0.15.1
+
