@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { NgIf, JsonPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -15,10 +15,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
           placeholder="Clark Kent"
           required
           [formControl]="name"
-        />
-        <mat-error *ngIf="name.hasError('required')">Required</mat-error>
+          />
+        @if (name.hasError('required')) {
+          <mat-error>Required</mat-error>
+        }
       </mat-form-field>
-
+    
       <mat-form-field>
         <mat-label>Enter your email address</mat-label>
         <input
@@ -27,14 +29,16 @@ import { toSignal } from '@angular/core/rxjs-interop';
           placeholder="name@mail.com"
           required
           [formControl]="email"
-        />
-        <mat-error *ngIf="email.invalid">{{
-          email.hasError('required')
+          />
+        @if (email.invalid) {
+          <mat-error>{{
+            email.hasError('required')
             ? 'Required'
             : email.hasError('email')
             ? 'Invalid email address'
             : ''
-        }}</mat-error>
+          }}</mat-error>
+        }
       </mat-form-field>
     </form>
     <div>
@@ -46,7 +50,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     <div>
       <code>dirty: {{ isFormDirty() }}</code>
     </div>
-  `,
+    `,
     styles: [
         `
       .form-container {
@@ -56,7 +60,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
       }
     `,
     ],
-    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, NgIf, MatError, JsonPipe],
+    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, JsonPipe],
     standalone: true
 })
 export class FormPage {

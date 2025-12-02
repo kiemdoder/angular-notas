@@ -1,3 +1,4 @@
+import { provideZoneChangeDetection } from "@angular/core";
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, Routes } from '@angular/router';
@@ -23,7 +24,7 @@ const appRoutes: Routes = [
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideAnimations(),
+    provideZoneChangeDetection(),provideAnimations(),
     provideRouter(appRoutes),
   ]
 })
