@@ -6,6 +6,7 @@ import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, Ma
 import { TableCellComponent } from './table-cell.component';
 import {DataSource} from "@angular/cdk/table";
 import {TableHeaderCellComponent} from "./table-header-cell.component";
+import {DefaultTableHeaderCellComponent} from "./default-table-header-cell.component";
 
 /**
  * A generic table component that can be used to display any type of data in a tabular format.
@@ -27,6 +28,7 @@ export class KdrTableComponent {
   headerValueResolver = input<HeaderValueResolver>(defaultHeaderValueResolver);
 
   defaultCellRenderer = TextTableCellComponent;
+  defaultHeaderCellRenderer = DefaultTableHeaderCellComponent;
 
   columnDefinition(col: string) {
     return this.columnDefinitions().find(def => def.id === col);
