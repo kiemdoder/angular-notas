@@ -1,11 +1,11 @@
 <table mat-table [dataSource]="data()" class="mat-elevation-z8">
   @for (col of cols(); track col) {
     <ng-container [matColumnDef]="col">
-      <th mat-header-cell *matHeaderCellDef>{{columnDefinitions()[col]?.header || splitFieldName_(col)}}</th>
+      <th mat-header-cell *matHeaderCellDef>{{columnDefinition(col)?.headerKey || splitFieldName_(col)}}</th>
       <td mat-cell *matCellDef="let element">
         <table-cell [row]="element"
                     [field]="col"
-                    [renderComponent]="columnDefinitions()[col]?.renderComponent || defaultCellRenderer"/>
+                    [renderComponent]="columnDefinition(col)?.cellRenderComponent || defaultCellRenderer"/>
       </td>
     </ng-container>
   }

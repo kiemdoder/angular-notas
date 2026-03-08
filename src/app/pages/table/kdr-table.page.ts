@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
-import { ColumnDefs } from '../../components/table/table';
-import { WeightCellComponent } from './weight-cell.component';
-import { GenericTableComponent } from '../../components/table/generic-table.component';
+import {Component, signal} from '@angular/core';
+import {ArrayTableDataSource, ColumnDefs, HeaderValueResolver} from '../../components/table/table';
+import {WeightCellComponent} from './weight-cell.component';
+import {KdrTableComponent} from "../../components/table/kdr-table.component";
+import {of} from "rxjs";
 
 interface PeriodicElement {
   name: string;
@@ -23,27 +24,47 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
 ];
 
+const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
+  of({
+    'position.header': 'No.',
+    'name.header': 'Element Name',
+    'symbol.header': 'Symbol',
+  }[headerKey] || headerKey);
+
 @Component({
-    template: `
-    <generic-table
-      [data]="data()"
+  template: `
+    <kdr-table
+      [dataSource]="dataSource()"
+      [displayedColumns]="['position', 'name', 'weight', 'symbol']"
+      [headerValueResolver]="headerCellResolver"
       [columnDefinitions]="columnDefinitions()"
-      [displayedColumns]="columns()"
-      [excludedColumns]="['position']"
-    ></generic-table>
+    ></kdr-table>
   `,
-    imports: [GenericTableComponent],
-    standalone: true
+  imports: [KdrTableComponent],
+  standalone: true
 })
-export class TablePage {
-  data = signal(ELEMENT_DATA);
+export class KdrTablePage {
+  dataSource = signal(new ArrayTableDataSource(ELEMENT_DATA));
   // columns = ['name', 'position', 'weight', 'symbol'];
   columns = signal<string[]>([]);
   columnDefinitions = signal<ColumnDefs>([
+    {
+      id: 'position',
+      headerKey: 'position.header',
+    },
+    {
+      id: 'name',
+      headerKey: 'name.header',
+    },
+    {
+      id: 'symbol',
+      headerKey: 'symbol.header',
+    },
     {
       id: 'weight',
       headerKey: 'Atomic weight',
       cellRenderComponent: WeightCellComponent,
     },
   ]);
+  protected readonly headerCellResolver = headerCellResolver;
 }

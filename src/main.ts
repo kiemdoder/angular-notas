@@ -1,16 +1,21 @@
-import { provideZoneChangeDetection } from "@angular/core";
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, Routes } from '@angular/router';
-import { TablePage } from './app/pages/table/table.page';
-import { FormPage } from './app/pages/form/form.page';
-import { AppComponent } from './app/app.component';
+import {provideZoneChangeDetection} from "@angular/core";
+import {bootstrapApplication} from '@angular/platform-browser';
+import {provideAnimations} from '@angular/platform-browser/animations';
+import {provideRouter, Routes} from '@angular/router';
+import {TablePage} from './app/pages/table/table.page';
+import {FormPage} from './app/pages/form/form.page';
+import {AppComponent} from './app/app.component';
 import {ListPage} from "./app/pages/list/list.page";
+import {KdrTablePage} from "./app/pages/table/kdr-table.page";
 
 const appRoutes: Routes = [
   {
     path: 'table',
     component: TablePage,
+  },
+  {
+    path: 'kdrTable',
+    component: KdrTablePage,
   },
   {
     path: 'form',
@@ -24,7 +29,7 @@ const appRoutes: Routes = [
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),provideAnimations(),
+    provideZoneChangeDetection(), provideAnimations(),
     provideRouter(appRoutes),
   ]
 })

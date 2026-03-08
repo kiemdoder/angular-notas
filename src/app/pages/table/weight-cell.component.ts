@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { DataRow, TableCellRenderer } from '../../components/table/table';
+import { Row, TableCellRenderer } from '../../components/table/table';
 
 @Component({
   template: `<span>{{ row()[field()] }} <strong>atomic units</strong></span>`,
@@ -7,5 +7,5 @@ import { DataRow, TableCellRenderer } from '../../components/table/table';
 })
 export class WeightCellComponent implements TableCellRenderer {
   field = signal('');
-  row = signal<DataRow>({});
+  row = signal<Row>({});
 }
