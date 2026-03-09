@@ -3,6 +3,7 @@ import {ArrayTableDataSource, ColumnDefs, HeaderValueResolver} from '../../compo
 import {WeightCellComponent} from './weight-cell.component';
 import {KdrTableComponent} from "../../components/table/kdr-table.component";
 import {of} from "rxjs";
+import {WeightHeaderCellComponent} from "./weight-header-cell.component";
 
 interface PeriodicElement {
   name: string;
@@ -28,7 +29,7 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
   of({
     'position.header': 'No.',
     'name.header': 'Element Name',
-    'symbol.header': 'Symbol',
+    // 'symbol.header': 'Symbol',
   }[headerKey] || headerKey);
 
 @Component({
@@ -45,8 +46,6 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
 })
 export class KdrTablePage {
   dataSource = signal(new ArrayTableDataSource(ELEMENT_DATA));
-  // columns = ['name', 'position', 'weight', 'symbol'];
-  columns = signal<string[]>([]);
   columnDefinitions = signal<ColumnDefs>([
     {
       id: 'position',
@@ -63,6 +62,7 @@ export class KdrTablePage {
     {
       id: 'weight',
       headerKey: 'Atomic weight',
+      headerRenderComponent: WeightHeaderCellComponent,
       cellRenderComponent: WeightCellComponent,
     },
   ]);

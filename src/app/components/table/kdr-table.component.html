@@ -3,6 +3,7 @@
     <ng-container [matColumnDef]="col">
       <th mat-header-cell *matHeaderCellDef>
         <table-header-cell [headerKey]="columnDefinition(col)?.headerKey || ''"
+                           [renderComponent]="columnDefinition(col)?.headerRenderComponent || defaultHeaderCellRenderer"
                            [headerValueResolver]="headerValueResolver()"/>
       </th>
       <td mat-cell *matCellDef="let element">
