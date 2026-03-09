@@ -15,7 +15,6 @@ export interface TableCellRenderer {
 export type HeaderValueResolver = (headerKey: string) => Observable<string>;
 export const defaultHeaderValueResolver: HeaderValueResolver = (headerKey: string) => of(headerKey);
 
-
 export interface TableHeaderCellRenderer {
   key: WritableSignal<string>;
   headerValueResolver?: WritableSignal<HeaderValueResolver>;
@@ -30,6 +29,7 @@ export interface ColumnDef {
   headerRenderComponent?: Type<TableHeaderCellRenderer>;
   cellValueFormatter?: CellValueFormatter;
   cellRenderComponent?: Type<TableCellRenderer>;
+  draggable?: boolean;
   tooltip?: string;
 }
 

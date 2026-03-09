@@ -1,12 +1,23 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { splitFieldName } from '../../../utils/format';
+import {ChangeDetectionStrategy, Component, input, model} from '@angular/core';
 import {ArrayTableDataSource, ColumnDefs, defaultHeaderValueResolver, HeaderValueResolver, Row} from './table';
-import { TextTableCellComponent } from './text-table-cell.component';
-import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
-import { TableCellComponent } from './table-cell.component';
+import {TextTableCellComponent} from './text-table-cell.component';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
+import {TableCellComponent} from './table-cell.component';
 import {DataSource} from "@angular/cdk/table";
 import {TableHeaderCellComponent} from "./table-header-cell.component";
 import {DefaultTableHeaderCellComponent} from "./default-table-header-cell.component";
+import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 
 /**
  * A generic table component that can be used to display any type of data in a tabular format.
@@ -16,14 +27,15 @@ import {DefaultTableHeaderCellComponent} from "./default-table-header-cell.compo
   selector: 'kdr-table',
   templateUrl: './kdr-table.component.html',
   styleUrls: ['./kdr-table.component.scss'],
-  imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, TableCellComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, TableHeaderCellComponent],
+  imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell,
+    TableCellComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, TableHeaderCellComponent, CdkDropList, CdkDrag],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true
 })
 export class KdrTableComponent {
   // Input signals
   dataSource = input<DataSource<Row>>(new ArrayTableDataSource([]));
-  displayedColumns = input<string[]>([]);
+  displayedColumns = model<string[]>([]);
   columnDefinitions = input<ColumnDefs>([]);
   headerValueResolver = input<HeaderValueResolver>(defaultHeaderValueResolver);
 
@@ -32,5 +44,19 @@ export class KdrTableComponent {
 
   columnDefinition(col: string) {
     return this.columnDefinitions().find(def => def.id === col);
+  }
+
+  protected drop($event: CdkDragDrop<any, any>) {
+    const targetCol = this.displayedColumns()[$event.currentIndex];
+    if (!this.columnDefinition(targetCol)?.draggable) {
+      // If the target column is not draggable, do not allow dropping here
+      return;
+    }
+
+    this.displayedColumns.update(cols => {
+      const copy = [...cols];
+      moveItemInArray(copy, $event.previousIndex, $event.currentIndex);
+      return copy;
+    });
   }
 }
