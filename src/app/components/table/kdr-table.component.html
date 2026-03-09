@@ -3,10 +3,16 @@
        cdkDropList
        cdkDropListOrientation="horizontal"
        (cdkDropListDropped)="drop($event)"
+       matSort
+       (matSortChange)="sortData($event)"
        class="mat-elevation-z8">
   @for (col of displayedColumns(); track col) {
     <ng-container [matColumnDef]="col">
-      <th mat-header-cell cdkDrag [cdkDragDisabled]="!columnDefinition(col)?.draggable" *matHeaderCellDef>
+      <th mat-header-cell
+          cdkDrag
+          [cdkDragDisabled]="!columnDefinition(col)?.draggable"
+          mat-sort-header [disabled]="!columnDefinition(col)?.sortable"
+          *matHeaderCellDef>
         <table-header-cell [headerKey]="columnDefinition(col)?.headerKey || ''"
                            [renderComponent]="columnDefinition(col)?.headerRenderComponent || defaultHeaderCellRenderer"
                            [headerValueResolver]="headerValueResolver()"/>

@@ -133,11 +133,13 @@ export class KdrTablePage {
     {
       id: 'name',
       headerKey: 'name.header',
+      sortable: true,
       draggable: true
     },
     {
       id: 'symbol',
       headerKey: 'symbol.header',
+      sortable: true,
       draggable: true
     },
     {

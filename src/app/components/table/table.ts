@@ -1,5 +1,5 @@
 import {Type, WritableSignal} from '@angular/core';
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
 import {DataSource} from "@angular/cdk/table";
 import {CollectionViewer} from "@angular/cdk/collections";
 
@@ -30,24 +30,46 @@ export interface ColumnDef {
   cellValueFormatter?: CellValueFormatter;
   cellRenderComponent?: Type<TableCellRenderer>;
   draggable?: boolean;
+  sortable?: boolean;
   tooltip?: string;
 }
 
 export type ColumnDefs = ColumnDef[];
 
-export class ArrayTableDataSource extends DataSource<Row> {
+export interface SortColumn {
+  columnId: string;
+  direction: 'asc' | 'desc' | '';
+}
+
+export abstract class KdrTableDataSource extends DataSource<Row> {
+  public sort(sortColumn: SortColumn){
+  };
+}
+
+export class ArrayTableDataSource extends KdrTableDataSource {
+  private data$: BehaviorSubject<Row[]>;
+
   constructor(private data: Row[]) {
     super();
+    this.data$ = new BehaviorSubject<Row[]>(data);
   }
 
   connect(collectionViewer: CollectionViewer): Observable<Row[]> {
-    return new Observable(subscriber => {
-      subscriber.next(this.data);
-      subscriber.complete();
-    });
+    return this.data$.asObservable();
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {
-    // No cleanup needed for this simple implementation
+  disconnect(_collectionViewer: CollectionViewer): void {
+    this.data$.complete();
+  }
+
+  override sort(sortColumn: SortColumn) {
+    const sorted = [...this.data].sort((a, b) => {
+      const aVal = a[sortColumn.columnId];
+      const bVal = b[sortColumn.columnId];
+      if (aVal < bVal) return sortColumn.direction === 'asc' ? -1 : 1;
+      if (aVal > bVal) return sortColumn.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+    this.data$.next(sorted);
   }
 }
