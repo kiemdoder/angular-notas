@@ -21,11 +21,11 @@ import {
   MatTable
 } from '@angular/material/table';
 import {TableCellComponent} from './table-cell.component';
-import {DataSource} from "@angular/cdk/table";
 import {TableHeaderCellComponent} from "./table-header-cell.component";
 import {DefaultTableHeaderCellComponent} from "./default-table-header-cell.component";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
-import {MatSort, MatSortHeader, Sort} from "@angular/material/sort";
+import {KdrSortHeaderComponent} from "./kdr-sort-header.component";
+import {SortDirection} from "./table";
 
 /**
  * A generic table component that can be used to display any type of data in a tabular format.
@@ -37,7 +37,7 @@ import {MatSort, MatSortHeader, Sort} from "@angular/material/sort";
   styleUrls: ['./kdr-table.component.scss'],
   imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell,
     TableCellComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, TableHeaderCellComponent,
-    CdkDropList, CdkDrag, MatSort, MatSortHeader],
+    CdkDropList, CdkDrag, KdrSortHeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true
 })
@@ -69,7 +69,14 @@ export class KdrTableComponent {
     });
   }
 
-  protected sortData($event: Sort) {
-      this.dataSource().sort({columnId: $event.active, direction: $event.direction});
+  getSortDirection(col: string): SortDirection {
+    return this.dataSource().getSortDirection(
+      this.columnDefinition(col)?.sort?.alternateColumnId ?? col
+    );
+  }
+
+  onColumnSort(col: string, direction: SortDirection) {
+    const columnId = this.columnDefinition(col)?.sort?.alternateColumnId ?? col;
+    this.dataSource().sort({columnId, direction});
   }
 }
