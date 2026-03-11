@@ -1,9 +1,12 @@
-import {Component, signal} from '@angular/core';
-import {ArrayTableDataSource, ColumnDefs, HeaderValueResolver} from '../../components/table/table';
+import {Component, effect, signal} from '@angular/core';
+import {ActionColumnDefs, ArrayTableDataSource, ColumnDefs, HeaderValueResolver} from '../../components/table/table';
 import {WeightCellComponent} from './weight-cell.component';
 import {KdrTableComponent} from "../../components/table/kdr-table.component";
 import {of} from "rxjs";
 import {WeightHeaderCellComponent} from "./weight-header-cell.component";
+import {CheckboxActionHeaderCellComponent} from "./checkbox-action-header-cell.component";
+import {CheckboxActionCellComponent} from "./checkbox-action-cell.component";
+import {TableSelectionService} from "../../components/table/table-selection.service";
 
 interface PeriodicElement {
   name: string;
@@ -118,12 +121,21 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
       [displayedColumns]="['position', 'name', 'weight', 'symbol']"
       [headerValueResolver]="headerCellResolver"
       [columnDefinitions]="columnDefinitions()"
+      [leadingActionColumnDefinitions]="leadingActionColumnDefinitions()"
     ></kdr-table>
   `,
   imports: [KdrTableComponent],
+  providers: [TableSelectionService],
   standalone: true
 })
 export class KdrTablePage {
+
+  constructor(private tableSelectionService: TableSelectionService) {
+    effect(() => {
+      console.log('Selected rows:', this.tableSelectionService.selectedRowIds());
+    });
+  }
+
   dataSource = signal(new ArrayTableDataSource(ELEMENT_DATA));
   columnDefinitions = signal<ColumnDefs>([
     {
@@ -149,6 +161,14 @@ export class KdrTablePage {
       headerRenderComponent: WeightHeaderCellComponent,
       cellRenderComponent: WeightCellComponent,
     },
+  ]);
+  leadingActionColumnDefinitions = signal<ActionColumnDefs>([
+    {
+      columnId: 'rowSelect',
+      rowIdField: 'position',
+      headerCellRenderComponent: CheckboxActionHeaderCellComponent,
+      cellRenderComponent: CheckboxActionCellComponent,
+    }
   ]);
   protected readonly headerCellResolver = headerCellResolver;
 }

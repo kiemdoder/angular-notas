@@ -1,5 +1,6 @@
-import {ChangeDetectionStrategy, Component, input, model} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, input, model} from '@angular/core';
 import {
+  ActionColumnDefs,
   ArrayTableDataSource,
   ColumnDefs,
   defaultHeaderValueResolver,
@@ -26,6 +27,8 @@ import {DefaultTableHeaderCellComponent} from "./default-table-header-cell.compo
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {KdrSortHeaderComponent} from "./kdr-sort-header.component";
 import {SortDirection} from "./table";
+import {TableActionHeaderCellComponent} from "./table-action-header-cell.component";
+import {TableActionCellComponent} from "./table-action-cell.component";
 
 /**
  * A generic table component that can be used to display any type of data in a tabular format.
@@ -37,7 +40,7 @@ import {SortDirection} from "./table";
   styleUrls: ['./kdr-table.component.scss'],
   imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell,
     TableCellComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, TableHeaderCellComponent,
-    CdkDropList, CdkDrag, KdrSortHeaderComponent],
+    CdkDropList, CdkDrag, KdrSortHeaderComponent, TableActionHeaderCellComponent, TableActionCellComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true
 })
@@ -47,9 +50,19 @@ export class KdrTableComponent {
   displayedColumns = model<string[]>([]);
   columnDefinitions = input<ColumnDefs>([]);
   headerValueResolver = input<HeaderValueResolver>(defaultHeaderValueResolver);
+  leadingActionColumnDefinitions = input<ActionColumnDefs>([]);
+  trailingActionColumnDefinitions = input<ActionColumnDefs>([]);
 
   defaultCellRenderer = TextTableCellComponent;
   defaultHeaderCellRenderer = DefaultTableHeaderCellComponent;
+
+  allColumns = computed(() => {
+    return [
+      ...this.leadingActionColumnDefinitions().map(def => def.columnId),
+      ...this.displayedColumns(),
+      ...this.trailingActionColumnDefinitions().map(def => def.columnId)
+    ];
+  })
 
   columnDefinition(col: string) {
     return this.columnDefinitions().find(def => def.id === col);

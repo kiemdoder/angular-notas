@@ -4,6 +4,20 @@
        cdkDropListOrientation="horizontal"
        (cdkDropListDropped)="drop($event)"
        class="mat-elevation-z8">
+
+  @for(colDef of leadingActionColumnDefinitions(); track colDef) {
+    <ng-container [matColumnDef]="colDef.columnId">
+      <th mat-header-cell *matHeaderCellDef>
+        <table-action-header-cell [renderComponent]="colDef.headerCellRenderComponent"/>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <table-action-cell [row]="element"
+                           [rowIdField]="colDef.rowIdField"
+                           [renderComponent]="colDef.cellRenderComponent"/>
+      </td>
+    </ng-container>
+  }
+
   @for (col of displayedColumns(); track col) {
     <ng-container [matColumnDef]="col">
       <th mat-header-cell
@@ -26,6 +40,6 @@
     </ng-container>
   }
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns();"></tr>
+  <tr mat-header-row *matHeaderRowDef="allColumns()"></tr>
+  <tr mat-row *matRowDef="let row; columns: allColumns();"></tr>
 </table>

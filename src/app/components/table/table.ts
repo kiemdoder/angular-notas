@@ -1,4 +1,4 @@
-import {Type, WritableSignal} from '@angular/core';
+import {EventEmitter, input, Type, WritableSignal} from '@angular/core';
 import {BehaviorSubject, Observable, of} from "rxjs";
 import {DataSource} from "@angular/cdk/table";
 import {CollectionViewer} from "@angular/cdk/collections";
@@ -34,6 +34,7 @@ export interface ColumnSortOption {
    */
   priority: number;
 }
+
 export interface ColumnDef {
   id: string;
   headerKey?: string;
@@ -42,10 +43,27 @@ export interface ColumnDef {
   cellRenderComponent?: Type<TableCellRenderer>;
   draggable?: boolean;
   sort?: ColumnSortOption;
-  tooltip?: string;
+  tooltip?: string; //TODO: Implement tooltip support in header and cells based on this property
 }
 
 export type ColumnDefs = ColumnDef[];
+
+export interface TableActionCellRenderer {
+  row: WritableSignal<Row>;
+  rowIdField: WritableSignal<string>;
+}
+
+export interface ActionColumnDef {
+  columnId: string;
+  /**
+   * The field in the row data that uniquely identifies the row. This is used for selection and other row-specific actions.
+   */
+  rowIdField: string;
+  headerCellRenderComponent: Type<any>;
+  cellRenderComponent: Type<TableActionCellRenderer>;
+}
+
+export type ActionColumnDefs = ActionColumnDef[];
 
 export type SortDirection = 'asc' | 'desc' | '';
 
