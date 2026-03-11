@@ -1,5 +1,48 @@
-<ng-container *ngTemplateOutlet="listTitleDef()?.templateRef || defaultTitleTemplate; context: {$implicit: title}"></ng-container>
+<!--
+  TITLE AREA
+  Uses *ngTemplateOutlet to render either the consumer-supplied title template
+  or the built-in fallback defined below.
+
+  Template selection (evaluated left-to-right):
+    1. listTitleDef()?.templateRef  — the <ng-template appListTitleDef> provided
+                                      by the consumer (undefined if not present)
+    2. defaultTitleTemplate         — the fallback <ng-template> defined below
+
+  Context: { $implicit: title() }
+    Passes the value of the `title` input into the template so that
+    `let-title` (or any name) in the consumer's template receives it.
+-->
+<ng-container *ngTemplateOutlet="listTitleDef()?.templateRef || defaultTitleTemplate; context: {$implicit: title()}"></ng-container>
+
+<!--
+  CELL OUTLET
+  An empty marker element. The AppListCellOutlet directive attached to it
+  exposes a ViewContainerRef, which drawCells() uses as the insertion point
+  to stamp one embedded view per item.
+
+  Nothing is rendered here by the template engine — all cell views are created
+  programmatically via ViewContainerRef.createEmbeddedView() in list.ts.
+-->
 <ng-container appListCellOutlet></ng-container>
 
+<!--
+  FALLBACK TITLE TEMPLATE
+  Used by *ngTemplateOutlet above when the consumer does not supply
+  an *appListTitleDef template.
+
+  `let-title` binds to $implicit, which receives the value of the `title` input.
+  Note: title() uses signal invocation syntax because this template is defined
+  inside the component's own view (not inside a consumer template).
+-->
 <ng-template #defaultTitleTemplate let-title><h4>{{title()}}</h4></ng-template>
+
+<!--
+  FALLBACK CELL TEMPLATE
+  Used by drawCells() when the consumer does not supply an *appListCellDef template.
+  Referenced in list.ts via viewChild('defaultCellTemplate').
+
+  `let-item` binds to $implicit, which drawCells() sets to each item value
+  when calling createEmbeddedView(template, { $implicit: item }).
+  No signal invocation here — `item` is a plain template variable, not a signal.
+-->
 <ng-template #defaultCellTemplate let-item><div>{{item}}</div></ng-template>
