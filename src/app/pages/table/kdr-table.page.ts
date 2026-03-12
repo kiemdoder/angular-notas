@@ -8,6 +8,9 @@ import {WeightHeaderCellComponent} from "./weight-header-cell.component";
 import {RowSelectionActionHeaderCellComponent} from "./row-selection-action-header-cell.component";
 import {RowSelectionActionCellComponent} from "./row-selection-action-cell.component";
 import {TableSelectionService} from "../../components/table/table-selection.service";
+import {TableExpansionService} from "../../components/table/table-expansion.service";
+import {RowExpansionActionHeaderCellComponent} from "./row-expansion-action-header-cell.component";
+import {RowExpansionActionCellComponent} from "./row-expansion-action-cell.component";
 
 interface PeriodicElement {
   name: string;
@@ -126,7 +129,7 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
     ></kdr-table>
   `,
   imports: [KdrTableComponent],
-  providers: [TableSelectionService, TableSortService],
+  providers: [TableSelectionService, TableSortService, TableExpansionService],
   standalone: true
 })
 export class KdrTablePage {
@@ -134,11 +137,15 @@ export class KdrTablePage {
   private sortService = inject(TableSortService);
   private injector = inject(Injector);
   private tableSelectionService = inject(TableSelectionService);
+  private tableExpansionService = inject(TableExpansionService);
 
   constructor() {
     this.sortService.multiColumnSort.set(false);
     effect(() => {
       console.log('Selected rows:', this.tableSelectionService.selectedRowIds());
+    });
+    effect(() => {
+      console.log('Expanded rows:', this.tableExpansionService.expandedRowIds());
     });
   }
 
@@ -169,6 +176,12 @@ export class KdrTablePage {
     },
   ]);
   leadingActionColumnDefinitions = signal<ActionColumnDefs>([
+    {
+      columnId: 'rowExpand',
+      rowIdField: 'position',
+      headerCellRenderComponent: RowExpansionActionHeaderCellComponent,
+      cellRenderComponent: RowExpansionActionCellComponent,
+    },
     {
       columnId: 'rowSelect',
       rowIdField: 'position',
