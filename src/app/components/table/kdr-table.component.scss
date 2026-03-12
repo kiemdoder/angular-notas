@@ -3,14 +3,29 @@ tr.row-expanded td {
 }
 
 tr.expansion-row {
-  overflow: hidden;
+  height: 0;
 
   td {
+    padding-top: 0;
+    padding-bottom: 0;
     border-bottom: none;
   }
 }
 
-tr.expansion-row--collapsed td {
-  padding-top: 0;
-  padding-bottom: 0;
+tr.expansion-row--expanded td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.expansion-detail-wrapper {
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 0fr;
+}
+
+.expansion-detail-wrapper--expanded {
+  grid-template-rows: 1fr;
+}
+
+.expansion-detail-content {
+  min-height: 0;
 }
