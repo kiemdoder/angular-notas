@@ -5,7 +5,6 @@ import {Row, TableActionCellRenderer} from "../../components/table/table";
 import {TableSelectionService} from "../../components/table/table-selection.service";
 
 @Component({
-  selector: 'checkbox-action-cell',
   template: `
     <mat-checkbox (change)="checkStateChange($event)"></mat-checkbox>
   `,
@@ -15,7 +14,7 @@ import {TableSelectionService} from "../../components/table/table-selection.serv
   ],
   standalone: true
 })
-export class CheckboxActionCellComponent implements TableActionCellRenderer {
+export class RowSelectionActionCellComponent implements TableActionCellRenderer {
 
   constructor(private tableSelectionService: TableSelectionService) {}
 

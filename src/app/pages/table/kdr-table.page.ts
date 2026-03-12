@@ -5,8 +5,8 @@ import {WeightCellComponent} from './weight-cell.component';
 import {KdrTableComponent} from "../../components/table/kdr-table.component";
 import {of} from "rxjs";
 import {WeightHeaderCellComponent} from "./weight-header-cell.component";
-import {CheckboxActionHeaderCellComponent} from "./checkbox-action-header-cell.component";
-import {CheckboxActionCellComponent} from "./checkbox-action-cell.component";
+import {RowSelectionActionHeaderCellComponent} from "./row-selection-action-header-cell.component";
+import {RowSelectionActionCellComponent} from "./row-selection-action-cell.component";
 import {TableSelectionService} from "../../components/table/table-selection.service";
 
 interface PeriodicElement {
@@ -172,8 +172,8 @@ export class KdrTablePage {
     {
       columnId: 'rowSelect',
       rowIdField: 'position',
-      headerCellRenderComponent: CheckboxActionHeaderCellComponent,
-      cellRenderComponent: CheckboxActionCellComponent,
+      headerCellRenderComponent: RowSelectionActionHeaderCellComponent,
+      cellRenderComponent: RowSelectionActionCellComponent,
     }
   ]);
   protected readonly headerCellResolver = headerCellResolver;

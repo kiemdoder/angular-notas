@@ -3,7 +3,6 @@ import {MatCheckboxChange, MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'checkbox-action-header-cell',
   template: `
     <mat-checkbox (change)="checkStateChange($event)"></mat-checkbox>
   `,
@@ -13,7 +12,7 @@ import {FormsModule} from "@angular/forms";
   ],
   standalone: true
 })
-export class CheckboxActionHeaderCellComponent {
+export class RowSelectionActionHeaderCellComponent {
 
   checkStateChange($event: MatCheckboxChange) {
     console.log($event);
