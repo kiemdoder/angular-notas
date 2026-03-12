@@ -71,6 +71,8 @@ export type SortDirection = 'asc' | 'desc' | '';
 export interface SortColumn {
   columnId: string;
   direction: SortDirection;
+  /** Lower number means higher priority. 0 is the highest priority. */
+  priority?: number;
 }
 
 export abstract class KdrTableDataSource extends DataSource<Row> {}
@@ -111,8 +113,9 @@ export class ArrayTableDataSource extends KdrTableDataSource {
 
   private sortData(data: Row[], cols: readonly SortColumn[]): Row[] {
     if (cols.length === 0) return data;
+    const ordered = [...cols].sort((a, b) => (a.priority ?? Infinity) - (b.priority ?? Infinity));
     return [...data].sort((a, b) => {
-      for (const sc of cols) {
+      for (const sc of ordered) {
         const aVal = a[sc.columnId];
         const bVal = b[sc.columnId];
         if (aVal < bVal) return sc.direction === 'asc' ? -1 : 1;

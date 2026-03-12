@@ -17,6 +17,7 @@ import {TableSortService} from './table-sort.service';
 export class KdrSortHeaderComponent {
   // The resolved column ID to sort by (alternateColumnId already applied by the parent template)
   columnId = input.required<string>();
+  priority = input<number>();
 
   private sortService = inject(TableSortService);
 
@@ -37,6 +38,6 @@ export class KdrSortHeaderComponent {
   protected onClick() {
     const current = this.sortDirection();
     const next: SortDirection = current === '' ? 'asc' : current === 'asc' ? 'desc' : '';
-    this.sortService.sort({ columnId: this.columnId(), direction: next });
+    this.sortService.sort({ columnId: this.columnId(), direction: next, priority: this.priority() });
   }
 }
