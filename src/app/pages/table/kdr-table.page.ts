@@ -11,6 +11,7 @@ import {TableSelectionService} from "../../components/table/table-selection.serv
 import {TableExpansionService} from "../../components/table/table-expansion.service";
 import {RowExpansionActionHeaderCellComponent} from "./row-expansion-action-header-cell.component";
 import {RowExpansionActionCellComponent} from "./row-expansion-action-cell.component";
+import {ElementDetailComponent} from "./element-detail.component";
 
 interface PeriodicElement {
   name: string;
@@ -126,6 +127,8 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
       [headerValueResolver]="headerCellResolver"
       [columnDefinitions]="columnDefinitions()"
       [leadingActionColumnDefinitions]="leadingActionColumnDefinitions()"
+      [expansionComponent]="elementDetailComponent"
+      [expansionRowIdField]="'position'"
     ></kdr-table>
   `,
   imports: [KdrTableComponent],
@@ -133,6 +136,8 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
   standalone: true
 })
 export class KdrTablePage {
+
+  readonly elementDetailComponent = ElementDetailComponent;
 
   private sortService = inject(TableSortService);
   private injector = inject(Injector);

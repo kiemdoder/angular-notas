@@ -23,9 +23,9 @@ export class RowSelectionActionCellComponent implements TableActionCellRenderer 
 
   checkStateChange($event: MatCheckboxChange) {
     if ($event.checked) {
-      this.tableSelectionService.selectRow(this.row()[this.rowIdField()]);
+      this.tableSelectionService.selectRow(String(this.row()[this.rowIdField()]));
     } else {
-      this.tableSelectionService.deselectRow(this.row()[this.rowIdField()]);
+      this.tableSelectionService.deselectRow(String(this.row()[this.rowIdField()]));
     }
   }
 

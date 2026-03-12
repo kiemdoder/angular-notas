@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, input, model} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input, model, Type} from '@angular/core';
 import {
   ActionColumnDefs,
   ArrayTableDataSource,
@@ -27,6 +27,8 @@ import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/d
 import {KdrSortHeaderComponent} from "./kdr-sort-header.component";
 import {TableActionHeaderCellComponent} from "./table-action-header-cell.component";
 import {TableActionCellComponent} from "./table-action-cell.component";
+import {TableExpansionService} from "./table-expansion.service";
+import {TableExpansionRowCellComponent} from "./table-expansion-row-cell.component";
 
 /**
  * A generic table component that can be used to display any type of data in a tabular format.
@@ -38,7 +40,8 @@ import {TableActionCellComponent} from "./table-action-cell.component";
   styleUrls: ['./kdr-table.component.scss'],
   imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell,
     TableCellComponent, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, TableHeaderCellComponent,
-    CdkDropList, CdkDrag, KdrSortHeaderComponent, TableActionHeaderCellComponent, TableActionCellComponent],
+    CdkDropList, CdkDrag, KdrSortHeaderComponent, TableActionHeaderCellComponent, TableActionCellComponent,
+    TableExpansionRowCellComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true
 })
@@ -50,6 +53,10 @@ export class KdrTableComponent {
   headerValueResolver = input<HeaderValueResolver>(defaultHeaderValueResolver);
   leadingActionColumnDefinitions = input<ActionColumnDefs>([]);
   trailingActionColumnDefinitions = input<ActionColumnDefs>([]);
+  expansionComponent = input<Type<any>>();
+  expansionRowIdField = input<string>('');
+
+  private expansionService = inject(TableExpansionService, { optional: true });
 
   defaultCellRenderer = TextTableCellComponent;
   defaultHeaderCellRenderer = DefaultTableHeaderCellComponent;
@@ -61,6 +68,11 @@ export class KdrTableComponent {
       ...this.trailingActionColumnDefinitions().map(def => def.columnId)
     ];
   })
+
+  isExpanded(row: any): boolean {
+    return !!this.expansionComponent()
+      && !!this.expansionService?.expandedRowIds().has(String(row[this.expansionRowIdField()]));
+  }
 
   columnDefinition(col: string) {
     return this.columnDefinitions().find(def => def.id === col);

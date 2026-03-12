@@ -20,10 +20,10 @@ export class RowExpansionActionCellComponent implements TableActionCellRenderer 
   private expansionService = inject(TableExpansionService);
 
   protected isExpanded = computed(() =>
-    this.expansionService.expandedRowIds().has(this.row()[this.rowIdField()])
+    this.expansionService.expandedRowIds().has(String(this.row()[this.rowIdField()]))
   );
 
   protected toggle() {
-    this.expansionService.toggleRow(this.row()[this.rowIdField()]);
+    this.expansionService.toggleRow(String(this.row()[this.rowIdField()]));
   }
 }
