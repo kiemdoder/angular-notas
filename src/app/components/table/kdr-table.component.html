@@ -57,6 +57,7 @@
   <tr mat-row *matRowDef="let row; columns: allColumns();" [class.row-expanded]="isExpanded(row)"></tr>
   @if (expansionComponent()) {
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail'];" class="expansion-row"
+        [class.expansion-row--collapsed]="!isExpanded(row)"
         [style.height]="isExpanded(row) ? '' : '0'"></tr>
   }
 </table>

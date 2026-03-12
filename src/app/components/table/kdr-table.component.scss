@@ -4,4 +4,13 @@ tr.row-expanded td {
 
 tr.expansion-row {
   overflow: hidden;
+
+  td {
+    border-bottom: none;
+  }
+}
+
+tr.expansion-row--collapsed td {
+  padding-top: 0;
+  padding-bottom: 0;
 }
