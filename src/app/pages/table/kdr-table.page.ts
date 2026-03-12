@@ -1,5 +1,6 @@
-import {Component, effect, signal} from '@angular/core';
+import {Component, effect, inject, Injector, signal} from '@angular/core';
 import {ActionColumnDefs, ArrayTableDataSource, ColumnDefs, HeaderValueResolver} from '../../components/table/table';
+import {TableSortService} from '../../components/table/table-sort.service';
 import {WeightCellComponent} from './weight-cell.component';
 import {KdrTableComponent} from "../../components/table/kdr-table.component";
 import {of} from "rxjs";
@@ -125,18 +126,23 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
     ></kdr-table>
   `,
   imports: [KdrTableComponent],
-  providers: [TableSelectionService],
+  providers: [TableSelectionService, TableSortService],
   standalone: true
 })
 export class KdrTablePage {
 
-  constructor(private tableSelectionService: TableSelectionService) {
+  private sortService = inject(TableSortService);
+  private injector = inject(Injector);
+  private tableSelectionService = inject(TableSelectionService);
+
+  constructor() {
+    this.sortService.multiColumnSort.set(false);
     effect(() => {
       console.log('Selected rows:', this.tableSelectionService.selectedRowIds());
     });
   }
 
-  dataSource = signal(new ArrayTableDataSource(ELEMENT_DATA));
+  dataSource = signal(new ArrayTableDataSource(ELEMENT_DATA, this.sortService.activeSortColumns, this.injector));
   columnDefinitions = signal<ColumnDefs>([
     {
       id: 'position',

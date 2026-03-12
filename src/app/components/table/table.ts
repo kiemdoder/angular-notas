@@ -1,5 +1,6 @@
-import {EventEmitter, input, Type, WritableSignal} from '@angular/core';
-import {BehaviorSubject, Observable, of} from "rxjs";
+import {Injector, Signal, Type, WritableSignal} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
+import {BehaviorSubject, combineLatest, map, Observable, of} from "rxjs";
 import {DataSource} from "@angular/cdk/table";
 import {CollectionViewer} from "@angular/cdk/collections";
 
@@ -72,34 +73,35 @@ export interface SortColumn {
   direction: SortDirection;
 }
 
-export abstract class KdrTableDataSource extends DataSource<Row> {
-  protected activeSortColumns: SortColumn[] = [];
-
-  sort(sortColumn: SortColumn): void {
-    const index = this.activeSortColumns.findIndex(sc => sc.columnId === sortColumn.columnId);
-    if (sortColumn.direction === '') {
-      if (index !== -1) this.activeSortColumns.splice(index, 1);
-    } else if (index !== -1) {
-      this.activeSortColumns[index] = sortColumn;
-    } else {
-      this.activeSortColumns.push(sortColumn);
-    }
-  }
-
-  getSortDirection(columnId: string): SortDirection {
-    return this.activeSortColumns.find(sc => sc.columnId === columnId)?.direction ?? '';
-  }
-}
+export abstract class KdrTableDataSource extends DataSource<Row> {}
 
 export class ArrayTableDataSource extends KdrTableDataSource {
-  private data$: BehaviorSubject<Row[]>;
+  private readonly data$: BehaviorSubject<Row[]>;
+  private readonly sortColumns?: Signal<readonly SortColumn[]>;
+  private readonly injector?: Injector;
 
-  constructor(private readonly originalData: Row[]) {
+  constructor(
+    private readonly originalData: Row[],
+    sortColumns?: Signal<readonly SortColumn[]>,
+    injector?: Injector
+  ) {
     super();
     this.data$ = new BehaviorSubject<Row[]>([...originalData]);
+    this.sortColumns = sortColumns;
+    this.injector = injector;
   }
 
   connect(_collectionViewer: CollectionViewer): Observable<Row[]> {
+    if (this.sortColumns && this.injector) {
+      // combineLatest re-emits whenever either the data or sort state changes.
+      // This is purely reactive — no effect scheduling, no timing issues.
+      return combineLatest([
+        this.data$,
+        toObservable(this.sortColumns, { injector: this.injector })
+      ]).pipe(
+        map(([data, cols]) => this.sortData(data, cols))
+      );
+    }
     return this.data$.asObservable();
   }
 
@@ -107,14 +109,10 @@ export class ArrayTableDataSource extends KdrTableDataSource {
     this.data$.complete();
   }
 
-  override sort(sortColumn: SortColumn): void {
-    super.sort(sortColumn);
-    if (this.activeSortColumns.length === 0) {
-      this.data$.next([...this.originalData]);
-      return;
-    }
-    const sorted = [...this.originalData].sort((a, b) => {
-      for (const sc of this.activeSortColumns) {
+  private sortData(data: Row[], cols: readonly SortColumn[]): Row[] {
+    if (cols.length === 0) return data;
+    return [...data].sort((a, b) => {
+      for (const sc of cols) {
         const aVal = a[sc.columnId];
         const bVal = b[sc.columnId];
         if (aVal < bVal) return sc.direction === 'asc' ? -1 : 1;
@@ -122,6 +120,5 @@ export class ArrayTableDataSource extends KdrTableDataSource {
       }
       return 0;
     });
-    this.data$.next(sorted);
   }
 }

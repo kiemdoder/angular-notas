@@ -6,7 +6,6 @@ import {
   defaultHeaderValueResolver,
   HeaderValueResolver,
   KdrTableDataSource,
-  Row
 } from './table';
 import {TextTableCellComponent} from './text-table-cell.component';
 import {
@@ -26,7 +25,6 @@ import {TableHeaderCellComponent} from "./table-header-cell.component";
 import {DefaultTableHeaderCellComponent} from "./default-table-header-cell.component";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {KdrSortHeaderComponent} from "./kdr-sort-header.component";
-import {SortDirection} from "./table";
 import {TableActionHeaderCellComponent} from "./table-action-header-cell.component";
 import {TableActionCellComponent} from "./table-action-cell.component";
 
@@ -82,14 +80,4 @@ export class KdrTableComponent {
     });
   }
 
-  getSortDirection(col: string): SortDirection {
-    return this.dataSource().getSortDirection(
-      this.columnDefinition(col)?.sort?.alternateColumnId ?? col
-    );
-  }
-
-  onColumnSort(col: string, direction: SortDirection) {
-    const columnId = this.columnDefinition(col)?.sort?.alternateColumnId ?? col;
-    this.dataSource().sort({columnId, direction});
-  }
 }

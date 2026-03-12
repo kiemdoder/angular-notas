@@ -28,8 +28,7 @@
                            [renderComponent]="columnDefinition(col)?.headerRenderComponent || defaultHeaderCellRenderer"
                            [headerValueResolver]="headerValueResolver()"/>
         @if (columnDefinition(col)?.sort) {
-          <kdr-sort-header [direction]="getSortDirection(col)"
-                           (sortChange)="onColumnSort(col, $event)"/>
+          <kdr-sort-header [columnId]="columnDefinition(col)?.sort?.alternateColumnId ?? col"/>
         }
       </th>
       <td mat-cell *matCellDef="let element">

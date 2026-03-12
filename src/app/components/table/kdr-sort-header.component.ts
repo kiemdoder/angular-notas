@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {SortDirection} from './table';
+import {TableSortService} from './table-sort.service';
 
 @Component({
   selector: 'kdr-sort-header',
@@ -14,20 +15,28 @@ import {SortDirection} from './table';
   standalone: true
 })
 export class KdrSortHeaderComponent {
-  direction = input<SortDirection>('');
-  sortChange = output<SortDirection>();
+  // The resolved column ID to sort by (alternateColumnId already applied by the parent template)
+  columnId = input.required<string>();
 
-  protected icon() {
-    const dir = this.direction();
+  private sortService = inject(TableSortService);
+
+  // Read activeSortColumns() directly so Angular's reactive tracking has a clear,
+  // unambiguous dependency on the public signal rather than going through a method call.
+  private sortDirection = computed(() =>
+    this.sortService.activeSortColumns()
+      .find(sc => sc.columnId === this.columnId())?.direction ?? ''
+  );
+
+  protected icon = computed(() => {
+    const dir = this.sortDirection();
     if (dir === 'asc') return 'arrow_upward';
     if (dir === 'desc') return 'arrow_downward';
     return 'swap_vert';
-  }
+  });
 
   protected onClick() {
-    const next: SortDirection =
-      this.direction() === '' ? 'asc' :
-      this.direction() === 'asc' ? 'desc' : '';
-    this.sortChange.emit(next);
+    const current = this.sortDirection();
+    const next: SortDirection = current === '' ? 'asc' : current === 'asc' ? 'desc' : '';
+    this.sortService.sort({ columnId: this.columnId(), direction: next });
   }
 }
