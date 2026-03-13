@@ -6,8 +6,9 @@ import {
   ColumnDefs,
   defaultHeaderValueResolver,
   HeaderValueResolver,
-  KdrTableDataSource,
+  Row,
 } from './table';
+import {DataSource} from '@angular/cdk/table';
 import {TextTableCellComponent} from './text-table-cell.component';
 import {
   MatCell,
@@ -49,7 +50,7 @@ import {KdrResizableDirective} from "./kdr-resizable.directive";
 })
 export class KdrTableComponent {
   // Input signals
-  dataSource = input<KdrTableDataSource>(new ArrayTableDataSource([]));
+  dataSource = input<DataSource<Row>>(new ArrayTableDataSource([]));
   displayedColumns = model<string[]>([]);
   columnDefinitions = input<ColumnDefs>([]);
   headerValueResolver = input<HeaderValueResolver>(defaultHeaderValueResolver);

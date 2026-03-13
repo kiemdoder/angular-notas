@@ -79,9 +79,7 @@ export interface SortColumn {
   priority?: number;
 }
 
-export abstract class KdrTableDataSource extends DataSource<Row> {}
-
-export class ArrayTableDataSource extends KdrTableDataSource {
+export class ArrayTableDataSource extends DataSource<Row> {
   private readonly data$: BehaviorSubject<Row[]>;
   private readonly sortColumns?: Signal<readonly SortColumn[]>;
   private readonly injector?: Injector;
