@@ -12,6 +12,8 @@ import {TableExpansionService} from "../../components/table/table-expansion.serv
 import {RowExpansionActionHeaderCellComponent} from "./row-expansion-action-header-cell.component";
 import {RowExpansionActionCellComponent} from "./row-expansion-action-cell.component";
 import {ElementDetailComponent} from "./element-detail.component";
+import {RowActionsCellComponent} from "./row-actions-cell.component";
+import {RowActionsHeaderCellComponent} from "./row-actions-header-cell.component";
 
 interface PeriodicElement {
   name: string;
@@ -127,6 +129,7 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
       [headerValueResolver]="headerCellResolver"
       [columnDefinitions]="columnDefinitions()"
       [leadingActionColumnDefinitions]="leadingActionColumnDefinitions()"
+      [trailingActionColumnDefinitions]="trailingActionColumnDefinitions()"
       [expansionComponent]="elementDetailComponent"
       [expansionRowIdField]="'position'"
     ></kdr-table>
@@ -192,6 +195,14 @@ export class KdrTablePage {
       rowIdField: 'position',
       headerCellRenderComponent: RowSelectionActionHeaderCellComponent,
       cellRenderComponent: RowSelectionActionCellComponent,
+    }
+  ]);
+  trailingActionColumnDefinitions = signal<ActionColumnDefs>([
+    {
+      columnId: 'rowActions',
+      rowIdField: 'position',
+      headerCellRenderComponent: RowActionsHeaderCellComponent,
+      cellRenderComponent: RowActionsCellComponent,
     }
   ]);
   protected readonly headerCellResolver = headerCellResolver;
