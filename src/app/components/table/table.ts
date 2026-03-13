@@ -44,6 +44,8 @@ export interface ColumnDef {
   cellRenderComponent?: Type<TableCellRenderer>;
   draggable?: boolean;
   sort?: ColumnSortOption;
+  minWidth?: number;
+  maxWidth?: number;
   tooltip?: string; //TODO: Implement tooltip support in header and cells based on this property
 }
 
@@ -62,6 +64,8 @@ export interface ActionColumnDef {
   rowIdField: string;
   headerCellRenderComponent: Type<any>;
   cellRenderComponent: Type<TableActionCellRenderer>;
+  minWidth?: number;
+  maxWidth?: number;
 }
 
 export type ActionColumnDefs = ActionColumnDef[];

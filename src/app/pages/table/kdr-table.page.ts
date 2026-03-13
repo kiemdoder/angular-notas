@@ -162,23 +162,31 @@ export class KdrTablePage {
     {
       id: 'position',
       headerKey: 'position.header',
+      minWidth: 30,
+      maxWidth: 30
     },
     {
       id: 'name',
       headerKey: 'name.header',
       sort: { priority: 0 },
-      draggable: true
+      draggable: true,
+      minWidth: 100,
+      maxWidth: 150
     },
     {
       id: 'symbol',
       headerKey: 'symbol.header',
       sort: { priority: 1 },
-      draggable: true
+      draggable: true,
+      minWidth: 60,
+      maxWidth: 100
     },
     {
       id: 'weight',
       headerKey: 'Atomic weight',
       draggable: true,
+      minWidth: 100,
+      maxWidth: 150,
       headerRenderComponent: WeightHeaderCellComponent,
       cellRenderComponent: WeightCellComponent,
     },
@@ -189,12 +197,16 @@ export class KdrTablePage {
       rowIdField: 'position',
       headerCellRenderComponent: RowExpansionActionHeaderCellComponent,
       cellRenderComponent: RowExpansionActionCellComponent,
+      minWidth: 30,
+      maxWidth: 30
     },
     {
       columnId: 'rowSelect',
       rowIdField: 'position',
       headerCellRenderComponent: RowSelectionActionHeaderCellComponent,
       cellRenderComponent: RowSelectionActionCellComponent,
+      minWidth: 30,
+      maxWidth: 30
     }
   ]);
   trailingActionColumnDefinitions = signal<ActionColumnDefs>([
@@ -203,6 +215,8 @@ export class KdrTablePage {
       rowIdField: 'position',
       headerCellRenderComponent: RowActionsHeaderCellComponent,
       cellRenderComponent: RowActionsCellComponent,
+      minWidth: 30,
+      maxWidth: 30
     }
   ]);
   protected readonly headerCellResolver = headerCellResolver;
