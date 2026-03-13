@@ -7,7 +7,7 @@
        class="mat-elevation-z8">
 
   @for(colDef of leadingActionColumnDefinitions(); track colDef) {
-    <ng-container [matColumnDef]="colDef.columnId">
+    <ng-container [matColumnDef]="colDef.columnId" sticky>
       <th mat-header-cell *matHeaderCellDef>
         <table-action-header-cell [renderComponent]="colDef.headerCellRenderComponent"/>
       </th>
@@ -42,7 +42,7 @@
   }
 
   @for(colDef of trailingActionColumnDefinitions(); track colDef) {
-    <ng-container [matColumnDef]="colDef.columnId">
+    <ng-container [matColumnDef]="colDef.columnId" stickyEnd>
       <th mat-header-cell *matHeaderCellDef>
         <table-action-header-cell [renderComponent]="colDef.headerCellRenderComponent"/>
       </th>
