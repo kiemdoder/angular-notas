@@ -1,6 +1,9 @@
+<div class="table-scroll-wrapper">
 <table mat-table
        [dataSource]="dataSource()"
        [multiTemplateDataRows]="!!expansionComponent()"
+       [style.width.px]="totalTableWidth()"
+       style="table-layout: fixed; min-width: 0"
        cdkDropList
        cdkDropListOrientation="horizontal"
        (cdkDropListDropped)="drop($event)"
@@ -8,16 +11,10 @@
 
   @for(colDef of leadingActionColumnDefinitions(); track colDef) {
     <ng-container [matColumnDef]="colDef.columnId" sticky>
-      <th mat-header-cell
-          [style.min-width.px]="colDef.minWidth"
-          [style.max-width.px]="colDef.maxWidth"
-          *matHeaderCellDef>
+      <th mat-header-cell [style.width.px]="actionColumnWidth(colDef)" *matHeaderCellDef>
         <table-action-header-cell [renderComponent]="colDef.headerCellRenderComponent"/>
       </th>
-      <td mat-cell
-          [style.min-width.px]="colDef.minWidth"
-          [style.max-width.px]="colDef.maxWidth"
-          *matCellDef="let element">
+      <td mat-cell [style.width.px]="actionColumnWidth(colDef)" *matCellDef="let element">
         <table-action-cell [row]="element"
                            [rowIdField]="colDef.rowIdField"
                            [renderComponent]="colDef.cellRenderComponent"/>
@@ -28,10 +25,11 @@
   @for (col of displayedColumns(); track col) {
     <ng-container [matColumnDef]="col">
       <th mat-header-cell
+          kdrResizable
+          (widthChange)="setColumnWidth(col, $event)"
           cdkDrag
           [cdkDragDisabled]="!columnDefinition(col)?.draggable"
-          [style.min-width.px]="columnDefinition(col)?.minWidth"
-          [style.max-width.px]="columnDefinition(col)?.maxWidth"
+          [style.width.px]="columnWidth(col)"
           *matHeaderCellDef>
         <table-header-cell [headerKey]="columnDefinition(col)?.headerKey || ''"
                            [renderComponent]="columnDefinition(col)?.headerRenderComponent || defaultHeaderCellRenderer"
@@ -42,8 +40,7 @@
         }
       </th>
       <td mat-cell
-          [style.min-width.px]="columnDefinition(col)?.minWidth"
-          [style.max-width.px]="columnDefinition(col)?.maxWidth"
+          [style.width.px]="columnWidth(col)"
           *matCellDef="let element">
         <table-cell [row]="element"
                     [field]="col"
@@ -54,16 +51,10 @@
 
   @for(colDef of trailingActionColumnDefinitions(); track colDef) {
     <ng-container [matColumnDef]="colDef.columnId" stickyEnd>
-      <th mat-header-cell
-          [style.min-width.px]="colDef.minWidth"
-          [style.max-width.px]="colDef.maxWidth"
-          *matHeaderCellDef>
+      <th mat-header-cell [style.width.px]="actionColumnWidth(colDef)" *matHeaderCellDef>
         <table-action-header-cell [renderComponent]="colDef.headerCellRenderComponent"/>
       </th>
-      <td mat-cell
-          [style.min-width.px]="colDef.minWidth"
-          [style.max-width.px]="colDef.maxWidth"
-          *matCellDef="let element">
+      <td mat-cell [style.width.px]="actionColumnWidth(colDef)" *matCellDef="let element">
         <table-action-cell [row]="element"
                            [rowIdField]="colDef.rowIdField"
                            [renderComponent]="colDef.cellRenderComponent"/>
@@ -92,3 +83,4 @@
         [class.expansion-row--expanded]="isExpanded(row)"></tr>
   }
 </table>
+</div>
