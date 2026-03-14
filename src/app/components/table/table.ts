@@ -70,6 +70,11 @@ export interface ActionColumnDef {
 
 export type ActionColumnDefs = ActionColumnDef[];
 
+export interface PageState {
+  pageIndex: number;
+  pageSize: number;
+}
+
 export type SortDirection = 'asc' | 'desc' | '';
 
 export interface SortColumn {
@@ -82,28 +87,35 @@ export interface SortColumn {
 export class ArrayTableDataSource extends DataSource<Row> {
   private readonly data$: BehaviorSubject<Row[]>;
   private readonly sortColumns?: Signal<readonly SortColumn[]>;
+  private readonly pageState?: Signal<PageState>;
   private readonly injector?: Injector;
 
   constructor(
-    private readonly originalData: Row[],
+    originalData: Row[],
     sortColumns?: Signal<readonly SortColumn[]>,
-    injector?: Injector
+    injector?: Injector,
+    pageState?: Signal<PageState>,
   ) {
     super();
     this.data$ = new BehaviorSubject<Row[]>([...originalData]);
     this.sortColumns = sortColumns;
     this.injector = injector;
+    this.pageState = pageState;
   }
 
   connect(_collectionViewer: CollectionViewer): Observable<Row[]> {
-    if (this.sortColumns && this.injector) {
-      // combineLatest re-emits whenever either the data or sort state changes.
-      // This is purely reactive — no effect scheduling, no timing issues.
+    if (this.injector && (this.sortColumns || this.pageState)) {
       return combineLatest([
         this.data$,
-        toObservable(this.sortColumns, { injector: this.injector })
+        this.sortColumns ? toObservable(this.sortColumns, { injector: this.injector }) : of([] as SortColumn[]),
+        this.pageState ? toObservable(this.pageState, { injector: this.injector }) : of(undefined),
       ]).pipe(
-        map(([data, cols]) => this.sortData(data, cols))
+        map(([data, cols, page]) => {
+          const sorted = this.sortData(data, cols);
+          if (!page) return sorted;
+          const start = page.pageIndex * page.pageSize;
+          return sorted.slice(start, start + page.pageSize);
+        })
       );
     }
     return this.data$.asObservable();

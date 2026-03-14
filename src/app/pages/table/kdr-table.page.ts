@@ -14,6 +14,8 @@ import {RowExpansionActionCellComponent} from "./row-expansion-action-cell.compo
 import {ElementDetailComponent} from "./element-detail.component";
 import {RowActionsCellComponent} from "./row-actions-cell.component";
 import {RowActionsHeaderCellComponent} from "./row-actions-header-cell.component";
+import {TablePagingService} from "../../components/table/table-paging.service";
+import {KdrPagerComponent} from "../../components/table/kdr-pager.component";
 
 interface PeriodicElement {
   name: string;
@@ -133,16 +135,19 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
       [expansionComponent]="elementDetailComponent"
       [expansionRowIdField]="'position'"
     ></kdr-table>
+    <kdr-pager [totalItems]="elementData.length"/>
   `,
-  imports: [KdrTableComponent],
-  providers: [TableSelectionService, TableSortService, TableExpansionService],
+  imports: [KdrTableComponent, KdrPagerComponent],
+  providers: [TableSelectionService, TableSortService, TableExpansionService, TablePagingService],
   standalone: true
 })
 export class KdrTablePage {
 
   readonly elementDetailComponent = ElementDetailComponent;
+  readonly elementData = ELEMENT_DATA;
 
   private sortService = inject(TableSortService);
+  private pagingService = inject(TablePagingService);
   private injector = inject(Injector);
   private tableSelectionService = inject(TableSelectionService);
   private tableExpansionService = inject(TableExpansionService);
@@ -157,7 +162,7 @@ export class KdrTablePage {
     });
   }
 
-  dataSource = signal(new ArrayTableDataSource(ELEMENT_DATA, this.sortService.activeSortColumns, this.injector));
+  dataSource = signal(new ArrayTableDataSource(ELEMENT_DATA, this.sortService.activeSortColumns, this.injector, this.pagingService.activePage));
   columnDefinitions = signal<ColumnDefs>([
     {
       id: 'position',
