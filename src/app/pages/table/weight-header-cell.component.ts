@@ -6,5 +6,5 @@ import {TableHeaderCellRenderer} from "../../components/table/table";
   standalone: true
 })
 export class WeightHeaderCellComponent implements TableHeaderCellRenderer {
-  key = signal('');
+  headerNameKey = signal('');
 }

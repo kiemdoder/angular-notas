@@ -23,7 +23,7 @@ export class TableHeaderCellComponent {
         this.renderComponent()
       );
 
-      compRef.instance.key.set(this.headerKey());
+      compRef.instance.headerNameKey.set(this.headerKey());
       if (compRef.instance.headerValueResolver) {
         compRef.instance.headerValueResolver.set(this.headerValueResolver());
       }
