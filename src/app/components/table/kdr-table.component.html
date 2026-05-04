@@ -1,4 +1,6 @@
+<!-- Wrapper for horizontal scrolling when table exceeds container width -->
 <div class="table-scroll-wrapper">
+<!-- Material table with fixed layout, drag-and-drop column reordering, and optional row expansion -->
 <table mat-table
        [dataSource]="dataSource()"
        [multiTemplateDataRows]="!!expansionComponent()"
@@ -9,6 +11,7 @@
        (cdkDropListDropped)="drop($event)"
        class="mat-elevation-z8">
 
+  <!-- Leading action columns (sticky to the left side of the table) -->
   @for(colDef of leadingActionColumnDefinitions(); track colDef) {
     <ng-container [matColumnDef]="colDef.columnId" sticky>
       <th mat-header-cell [style.width.px]="actionColumnWidth(colDef)" *matHeaderCellDef>
@@ -22,6 +25,7 @@
     </ng-container>
   }
 
+  <!-- Data columns (resizable, draggable, with optional sorting) -->
   @for (col of displayedColumns(); track col) {
     <ng-container [matColumnDef]="col">
       <th mat-header-cell
@@ -49,6 +53,7 @@
     </ng-container>
   }
 
+  <!-- Trailing action columns (sticky to the right side of the table) -->
   @for(colDef of trailingActionColumnDefinitions(); track colDef) {
     <ng-container [matColumnDef]="colDef.columnId" stickyEnd>
       <th mat-header-cell [style.width.px]="actionColumnWidth(colDef)" *matHeaderCellDef>
@@ -62,6 +67,7 @@
     </ng-container>
   }
 
+  <!-- Expandable row detail (displayed below each row when expanded) -->
   @if (expansionComponent()) {
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let rowData" [attr.colspan]="allColumns().length">
@@ -76,8 +82,13 @@
     </ng-container>
   }
 
+  <!-- Header row definition -->
   <tr mat-header-row *matHeaderRowDef="allColumns()"></tr>
+
+  <!-- Data row definition -->
   <tr mat-row *matRowDef="let row; columns: allColumns();" [class.row-expanded]="isExpanded(row)"></tr>
+
+  <!-- Expansion row definition (only rendered when expansionComponent is configured) -->
   @if (expansionComponent()) {
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail'];" class="expansion-row"
         [class.expansion-row--expanded]="isExpanded(row)"></tr>
