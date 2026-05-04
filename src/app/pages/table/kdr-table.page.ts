@@ -138,6 +138,13 @@ const headerCellResolver: HeaderValueResolver = (headerKey: string) =>
     <kdr-pager [totalItems]="elementData.length"/>
   `,
   imports: [KdrTableComponent, KdrPagerComponent],
+  /**
+   * Define providers for services that will be used by this table only. These services are used to keep the state
+   * of row selection, sorting, expanded rows and paging. If any of these features are not required, the corresponding
+   * services can be left out from this providers definition. By providing these services at the component level,
+   * we ensure that their state is encapsulated within this component hierarchy and does not affect other tables
+   * that might be present in the application.
+   */
   providers: [TableSelectionService, TableSortService, TableExpansionService, TablePagingService],
   standalone: true
 })

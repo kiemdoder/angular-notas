@@ -1,4 +1,4 @@
-import {Component, EventEmitter, signal} from "@angular/core";
+import {Component, signal} from "@angular/core";
 import {MatCheckboxChange, MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {Row, TableActionCellRenderer} from "../../components/table/table";
